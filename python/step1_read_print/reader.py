@@ -1,16 +1,21 @@
 import re
 
+class MalException(BaseException):pass
+
 class Reader:
     def __init__(self, tokens):
         self.data:list = tokens
         self.position:int = 0
 
     def next(self):
-        self.position += 1
-        return self.data[position-1]
+        if len(self.data) > self.position:
+            self.position += 1
+            return self.data[self.position-1]
+        else:
+            return None
     def peek(self):
-        return self.data[position]
-
+        if len(self.data) > self.position:
+            return self.data[self.position]
 
 def tokenize(source:str):
     #vynechat komentaře
@@ -21,18 +26,30 @@ def tokenize(source:str):
 def read_str(source):
     tokens = tokenize(source)
     reader = Reader(tokens)
-    read_form(reader)
+    return read_form(reader)
 
 
 def read_form(tokens:Reader):
-    if tokens.peek() == "(":
-        tokens.next()
-        read_list(tokens)
+    token = tokens.peek()
+    if token == "(":
+        return read_list(tokens)
     else:
-        read_atom(tokens)
+        return read_atom(tokens)
 
 def read_list(tokens:Reader):
-    pass
+    out = list()
+    tokens.next()
+    while(tokens.peek() != ")"):
+        out.append(read_form(tokens))
+        tokens.next()
+    return out
 
 def read_atom(tokens:Reader):
-    pass
+
+    token = tokens.peek()
+    int_re = re.compile(r"-?[0-9]+$")
+    float_re = re.compile(r"-?[0-9][0-9.]*$")
+
+    if re.match(int_re, token):     return int(token)
+    if re.match(float_re, token):     return float(token)
+    return token
