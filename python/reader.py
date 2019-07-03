@@ -1,7 +1,5 @@
 import re
 
-class MalException(BaseException):pass
-
 class Reader:
     def __init__(self, tokens):
         self.data:list = tokens
