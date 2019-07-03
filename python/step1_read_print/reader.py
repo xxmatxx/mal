@@ -49,7 +49,7 @@ def read_atom(tokens:Reader):
     token = tokens.peek()
     int_re = re.compile(r"-?[0-9]+$")
     float_re = re.compile(r"-?[0-9][0-9.]*$")
-
+    print(token)
     if re.match(int_re, token):     return int(token)
     if re.match(float_re, token):     return float(token)
     return token
