@@ -39,9 +39,11 @@ def read_form(tokens:Reader):
 def read_list(tokens:Reader):
     out = list()
     tokens.next()
-    while(tokens.peek() != ")"):
+    while(tokens.peek() != ")" and  tokens.peek() != None):
         out.append(read_form(tokens))
         tokens.next()
+    if tokens.peek() == None:
+        raise MalException("missing )")
     return out
 
 def read_atom(tokens:Reader):
