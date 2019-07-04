@@ -1,4 +1,5 @@
 import re
+from mal_types import MalException 
 
 class Reader:
     def __init__(self, tokens):
@@ -45,11 +46,9 @@ def read_list(tokens:Reader):
     return out
 
 def read_atom(tokens:Reader):
-
     token = tokens.peek()
     int_re = re.compile(r"-?[0-9]+$")
     float_re = re.compile(r"-?[0-9][0-9.]*$")
-    print(token)
     if re.match(int_re, token):     return int(token)
     if re.match(float_re, token):     return float(token)
     return token

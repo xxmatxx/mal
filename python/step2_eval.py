@@ -1,11 +1,25 @@
 from reader import read_str
 from printer import pr_str
+from mal_types import MalException
+
+repl_env = {'+': lambda a,b: a+b,
+            '-': lambda a,b: a-b,
+            '*': lambda a,b: a*b,
+            '/': lambda a,b: int(a/b)}
+
 def READ(source):
     return read_str(source)
 
 
 def EVAL(ast, env):
-    return ast
+    if not isinstance(ast, list):
+        return eval_ast(ast, env)
+    if isinstance(ast, list) and len(ast) == 0:
+        return []
+    if isinstance(ast, list):
+        eval_list = eval_ast(ast, env)
+        function = eval_list[0]
+        return function(*eval_list[1:])
 
 
 def PRINT(exp):
@@ -13,7 +27,24 @@ def PRINT(exp):
 
 
 def REP(source):
-    return PRINT(EVAL(READ(source), {}))
+    return PRINT(EVAL(READ(source), repl_env))
+
+def eval_ast(ast,env):
+    if isinstance(ast, str):
+        out = env.get(ast)
+        if out == None:
+            raise  MalException("symbol not found")
+        else:
+            return out
+    if isinstance(ast, list):
+        if len(ast) == 0:
+            return []
+        else:
+            out = list()
+            for x in ast:
+                out.append(EVAL(x,env))
+            return out
+    return ast
 
 
 if __name__ == '__main__':
@@ -22,8 +53,11 @@ if __name__ == '__main__':
     print(header)
     try:
         while True:
-            data = input('>>')
-            print(REP(data))
+            try:
+                data = input('>>')
+                print(REP(data))
+            except MalException as m:
+                print(str(m))
     except (EOFError, KeyboardInterrupt):
         pass
     print(footer)
