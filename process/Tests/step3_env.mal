@@ -1,3 +1,10 @@
+def testing_():
+    env = Env()
+    env.data = {'+': lambda a,b: a+b,
+                '-': lambda a,b: a-b,
+                '*': lambda a,b: a*b,
+                '/': lambda a,b: int(a/b)}
+
 ;; Testing REPL_ENV
 (+ 1 2)
 ;=>3
