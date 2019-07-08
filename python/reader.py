@@ -1,5 +1,5 @@
 import re
-from mal_types import MalException 
+from mal_types import MalException, Integer, Nill, Bolean, Symbol
 
 class Reader:
     def __init__(self, tokens):
@@ -45,10 +45,15 @@ def read_list(tokens:Reader):
         raise MalException("missing )")
     return out
 
+
 def read_atom(tokens:Reader):
     token = tokens.peek()
     int_re = re.compile(r"-?[0-9]+$")
     float_re = re.compile(r"-?[0-9][0-9.]*$")
     if re.match(int_re, token):     return int(token)
-    if re.match(float_re, token):     return float(token)
-    return token
+    if re.match(float_re, token):   return float(token)
+    if token == "true":             return Bolean(True)
+    if token == "false":            return Bolean(False)
+    if token == "nill":             return Nill()
+
+    return Symbol(token)

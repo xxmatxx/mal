@@ -10,7 +10,7 @@ def testing_REPL_ENV():
     env.data = {'+': lambda a,b: a+b,
                 '-': lambda a,b: a-b,
                 '*': lambda a,b: a*b,
-                '/': lambda a,b: int(a/b)}
+                '/': lambda a,b: a/b}
 
     assert ("3" == PRINT(EVAL(READ("(+ 1 2)"), env)))
     assert ("2" == PRINT(EVAL(READ("(/ (- (+ 5 (* 2 3)) 3) 4)"), env)))

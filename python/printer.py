@@ -1,5 +1,7 @@
+from mal_types import Integer, Bolean, Nill
+
 def pr_str(ast):
-    if isinstance(ast, int):
+    if isinstance(ast, (Integer, Bolean, Nill)):
         return str(ast)
     if isinstance(ast, float):
         return str(ast)

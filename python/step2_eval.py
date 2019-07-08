@@ -5,7 +5,7 @@ from mal_types import MalException
 repl_env = {'+': lambda a,b: a+b,
             '-': lambda a,b: a-b,
             '*': lambda a,b: a*b,
-            '/': lambda a,b: int(a/b)}
+            '/': lambda a,b: a/b}
 
 def READ(source):
     return read_str(source)
