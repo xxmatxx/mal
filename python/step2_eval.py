@@ -1,11 +1,14 @@
 from reader import read_str
 from printer import pr_str
-from mal_types import MalException
+from mal_types import MalException, Symbol
 
-repl_env = {'+': lambda a,b: a+b,
-            '-': lambda a,b: a-b,
-            '*': lambda a,b: a*b,
-            '/': lambda a,b: a/b}
+repl_env = {
+            '+': lambda a, b: a+b,
+            '-': lambda a, b: a-b,
+            '*': lambda a, b: a*b,
+            '/': lambda a, b: a/b
+            }
+
 
 def READ(source):
     return read_str(source)
@@ -29,11 +32,12 @@ def PRINT(exp):
 def REP(source):
     return PRINT(EVAL(READ(source), repl_env))
 
-def eval_ast(ast,env):
-    if isinstance(ast, str):
-        out = env.get(ast)
-        if out == None:
-            raise  MalException("symbol not found")
+
+def eval_ast(ast, env):
+    if isinstance(ast, Symbol):
+        out = env.get(str(ast))
+        if out is None:
+            raise MalException("symbol not found")
         else:
             return out
     if isinstance(ast, list):
@@ -42,7 +46,7 @@ def eval_ast(ast,env):
         else:
             out = list()
             for x in ast:
-                out.append(EVAL(x,env))
+                out.append(EVAL(x, env))
             return out
     return ast
 

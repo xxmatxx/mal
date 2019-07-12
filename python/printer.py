@@ -1,7 +1,8 @@
-from mal_types import Integer, Bolean, Nill
+from mal_types import Integer, Bolean, Nill, Symbol
+
 
 def pr_str(ast):
-    if isinstance(ast, (Integer, Bolean, Nill)):
+    if isinstance(ast, (Integer, Bolean, Nill, Symbol)):
         return str(ast)
     if isinstance(ast, float):
         return str(ast)
@@ -9,11 +10,11 @@ def pr_str(ast):
         return ast
     if isinstance(ast, list):
         out = str()
-        out +="("
+        out += "("
         for ind in range(len(ast)):
             if ind == len(ast)-1:
                 out += pr_str(ast[ind])
             else:
-                out += pr_str(ast[ind]) +" "
+                out += pr_str(ast[ind]) + " "
         out += ")"
         return out

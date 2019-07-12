@@ -1,11 +1,12 @@
 from mal_types import MalException
 
+
 class Env:
     def __init__(self):
         self.outer = None
         self.data = dict()
 
-    def set(self, key,value):
+    def set(self, key, value):
         self.data[key] = value
 
     def find(self, key):

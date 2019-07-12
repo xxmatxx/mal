@@ -1,29 +1,38 @@
 class MalException(BaseException):
     pass
 
+
 class Nill:
+    name = "Nill"
+
     def __init__(self):
         pass
+
     def __str__(self):
         return "nill"
 
 
 class Bolean:
-    def __init__(self,value):
-        if value == True or value == False:
+    name = "Bolean"
+
+    def __init__(self, value):
+        if value is True or value is False:
             self.value = value
         else:
             raise MalException("Wrong value " + str(value))
 
     def __str__(self):
-        if self.value == True:      return "true"
-        if self.value == False:     return "false"
+        if self.value is True:      return "true"
+        if self.value is False:     return "false"
 
-    def __bool__():
+    def __bool__(self):
         return self.value
 
+
 class Integer:
-    def __init__(self,value):
+    name = "Integer"
+
+    def __init__(self, value):
         if isinstance(value, int) and not isinstance(value, bool):
             self.value = value
         else:
@@ -49,7 +58,9 @@ class Integer:
 
 
 class Symbol():
-    def __init__(self,value):
+    name = "Symbol"
+
+    def __init__(self, value):
         if isinstance(value, str):
             self.value = value
         else:
@@ -61,11 +72,13 @@ class Symbol():
     def __repr__(self):
         return self.value
 
+
 class String(str):
     pass
 
 
 class Function:
     pass
+
 
 #list je list()
