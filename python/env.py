@@ -2,9 +2,12 @@ from mal_types import MalException
 
 
 class Env:
-    def __init__(self):
-        self.outer = None
+    def __init__(self, outer=None, binds=None, exprs=None):
+        self.outer = outer
         self.data = dict()
+        if binds:
+            for i in range(len(binds)):
+                self.set(binds[i],exprs[i])
 
     def set(self, key, value):
         self.data[key] = value

@@ -1,3 +1,4 @@
+from env import Env
 class MalException(BaseException):
     pass
 
@@ -78,7 +79,12 @@ class String(str):
 
 
 class Function:
-    pass
+    def __init__(self,env, bind, ast):
+        self.outer = env
+        self.bind = bind
+        self.ast = ast
+    def __call__(self):
+        pass
 
 
 #list je list()

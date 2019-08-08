@@ -79,3 +79,20 @@ def testing_outer_environment():
     assert ("9" == PRINT(EVAL(READ("(let* (q 9) q)"), env)))
     assert ("4" == PRINT(EVAL(READ("(let* (q 9) a)"), env)))
     assert ("4" == PRINT(EVAL(READ("(let* (z 2) (let* (q 9) a))"), env)))
+
+
+def testing_let():
+    env = Env()
+    env.data = {
+                '+': lambda a, b: a+b,
+                '-': lambda a, b: a-b,
+                '*': lambda a, b: a*b,
+                '/': lambda a, b: a/b
+                }
+
+    PRINT(EVAL(READ("(def! a 1)"), env))
+    PRINT(EVAL(READ("(def! b 2)"), env))
+    PRINT(EVAL(READ("(def! c a)"), env))
+
+    assert ("25" == PRINT(EVAL(READ("(let* (a 20 b 5) (+ a b))"), env)))
+    assert ("6" == PRINT(EVAL(READ("(let* (a 20 b 5) (let* (a b) (+ a c)))"), env)))
