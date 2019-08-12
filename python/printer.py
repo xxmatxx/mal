@@ -1,14 +1,14 @@
-from mal_types import Integer, Bolean, Nill, Symbol
+from mal_types import Integer, Bolean, Nill, Symbol,Closure
 
 
 def pr_str(ast):
-    if isinstance(ast, (Integer, Bolean, Nill, Symbol)):
+    if isinstance(ast, (Integer, Bolean, Nill, Symbol,Closure)):
         return str(ast)
-    if isinstance(ast, float):
+    elif isinstance(ast, float):
         return str(ast)
-    if isinstance(ast, str):
+    elif isinstance(ast, str):
         return ast
-    if isinstance(ast, list):
+    elif isinstance(ast, list):
         out = str()
         out += "("
         for ind in range(len(ast)):
@@ -18,3 +18,5 @@ def pr_str(ast):
                 out += pr_str(ast[ind]) + " "
         out += ")"
         return out
+    else:
+        raise "error printer.py"

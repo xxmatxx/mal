@@ -1,4 +1,3 @@
-from env import Env
 class MalException(BaseException):
     pass
 
@@ -12,6 +11,9 @@ class Nill:
     def __str__(self):
         return "nill"
 
+    def __repr__(self):
+        return "nill"
+
 
 class Bolean:
     name = "Bolean"
@@ -23,6 +25,10 @@ class Bolean:
             raise MalException("Wrong value " + str(value))
 
     def __str__(self):
+        if self.value is True:      return "true"
+        if self.value is False:     return "false"
+
+    def __repr__(self):
         if self.value is True:      return "true"
         if self.value is False:     return "false"
 
@@ -40,6 +46,8 @@ class Integer:
             raise MalException("Wrong value " + str(value))
 
     def __str__(self):
+        return str(self.value)
+    def __repr__(self):
         return str(self.value)
 
     def __bool__(self):
@@ -74,17 +82,20 @@ class Symbol():
         return self.value
 
 
+
 class String(str):
     pass
 
 
-class Function:
+class Closure:
     def __init__(self,env, bind, ast):
         self.outer = env
         self.bind = bind
         self.ast = ast
-    def __call__(self):
-        pass
+    def __str__(self):
+        return "Closure"
 
+    def __repr__(self):
+        return "Closure"
 
 #list je list()
