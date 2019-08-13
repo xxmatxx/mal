@@ -14,7 +14,7 @@ class Env:
 
     def find(self, key):
         if key in self.data:
-            return self
+            return self.data[key]
         elif self.outer:
             return self.outer.find(key)
         else:

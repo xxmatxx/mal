@@ -1,6 +1,8 @@
 from step4_if_fn_do import *
 from mal_types import MalException
 from env import Env
+
+
 def testing_enviroment_and_user_defined_functions():
     env = Env()
     env.data = {
