@@ -16,12 +16,12 @@ def testing_enviroment_and_user_defined_functions():
     assert ("8" == PRINT(EVAL(READ("( (fn* (f x) (f x)) (fn* (a) (+ 1 a)) 7)"), env)))
 
 
-def testing_enviroment_and_user_defined_functions():
+def testing_closures():
     env = Env()
     env.data = {
                 '+': lambda a, b: a+b,
                 '-': lambda a, b: a-b,
-                '*': lam bda a, b: a*b,
+                '*': lambda a, b: a*b,
                 '/': lambda a, b: a/b
                 }
 
