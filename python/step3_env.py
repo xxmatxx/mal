@@ -6,11 +6,11 @@ from env import Env
 
 repl_env = Env()
 repl_env.data = {
-            '+': lambda a, b: a+b,
-            '-': lambda a, b: a-b,
-            '*': lambda a, b: a*b,
-            '/': lambda a, b: a/b
-            }
+    '+': lambda a, b: a+b,
+    '-': lambda a, b: a-b,
+    '*': lambda a, b: a*b,
+    '/': lambda a, b: a/b
+}
 
 
 def READ(source):

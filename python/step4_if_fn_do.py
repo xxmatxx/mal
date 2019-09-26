@@ -18,7 +18,6 @@ def READ(source):
 
 
 def EVAL(ast, env):
-    print(env.data)
     if not isinstance(ast, list):
         return eval_ast(ast, env)
     if isinstance(ast, list) and len(ast) == 0:
@@ -38,16 +37,9 @@ def EVAL(ast, env):
             return Closure(env, ast[1], *ast[2:])
         else:
             eval_list = eval_ast(ast, env)
-
             if isinstance(eval_list[0], Closure):
                 closure = eval_list[0]
                 envc = Env(closure.outer, closure.bind, eval_list[1:])
-
-                #print(closure.ast)
-                #print(closure.bind)
-                #print(eval_list[1:])
-                #print(envc.data)
-
                 return EVAL(closure.ast,envc)
             else:
                 function = eval_list[0]

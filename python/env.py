@@ -5,8 +5,8 @@ class Env:
     def __init__(self, outer=None, binds=None, exprs=None):
         self.outer = outer
         self.data = dict()
-        if binds:
-            for i in range(len(binds)):
+        if binds and exprs:
+           for i in range(len(binds)):
                 self.set(binds[i],exprs[i])
 
     def set(self, key, value):
@@ -14,7 +14,7 @@ class Env:
 
     def find(self, key):
         if key in self.data:
-            return self.data[key]
+            return self
         elif self.outer:
             return self.outer.find(key)
         else:
