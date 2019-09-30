@@ -1,4 +1,4 @@
-from step4_if_fn_do import *
+from step4_if_fn_do import PRINT, EVAL, READ
 from mal_types import MalException
 from env import Env
 

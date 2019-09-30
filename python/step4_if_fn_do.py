@@ -40,7 +40,10 @@ def EVAL(ast, env):
             if isinstance(eval_list[0], Closure):
                 closure = eval_list[0]
                 envc = Env(closure.outer, closure.bind, eval_list[1:])
-                return EVAL(closure.ast,envc)
+                print(closure.outer.data)
+                print(envc.data)
+                x = EVAL(closure.ast,envc)
+                return x
             else:
                 function = eval_list[0]
                 return function(*eval_list[1:])
@@ -48,6 +51,7 @@ def EVAL(ast, env):
 
 def eval_ast(ast, env):
     if isinstance(ast, Symbol):
+        print(env.data)
         out = env.get(str(ast))
         if out is None:
             raise MalException("symbol not found")
