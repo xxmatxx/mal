@@ -34,14 +34,17 @@ def EVAL(ast, env):
                 new_env.set(str(ast[1][i]), EVAL(ast[1][i+1], new_env))
             return EVAL(ast[2], new_env)
         elif str(ast[0]) == "fn*":
-            return Closure(env, ast[1], *ast[2:])
+            
+            print(env)
+            print(ast[1])
+            print(ast[2:])
+            
+            return Closure(env, ast[1], ast[2:])
         else:
             eval_list = eval_ast(ast, env)
             if isinstance(eval_list[0], Closure):
                 closure = eval_list[0]
                 envc = Env(closure.outer, closure.bind, eval_list[1:])
-                print(closure.outer.data)
-                print(envc.data)
                 x = EVAL(closure.ast,envc)
                 return x
             else:
@@ -51,7 +54,6 @@ def EVAL(ast, env):
 
 def eval_ast(ast, env):
     if isinstance(ast, Symbol):
-        print(env.data)
         out = env.get(str(ast))
         if out is None:
             raise MalException("symbol not found")

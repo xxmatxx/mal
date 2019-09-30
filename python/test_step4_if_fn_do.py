@@ -10,7 +10,7 @@ def test_simple():
     assert ("4"  == PRINT(EVAL(READ("((fn* (a) a) 4)"), env)))
 
 
-"""def testing_enviroment_and_user_defined_functions():
+def testing_enviroment_and_user_defined_functions():
     env = Env()
     env.data = {
                 '+': lambda a, b: a+b,
@@ -41,4 +41,3 @@ def testing_closures():
     assert ("Closure" == PRINT(EVAL(READ("(def! gen-plusX (fn* (x) (fn* (b) (+ x b))))"), env)))
     assert ("Closure" == PRINT(EVAL(READ("(def! plus7 (gen-plusX 7))"), env)))
     assert ("15" == PRINT(EVAL(READ("(plus7 8)"), env)))
-    """

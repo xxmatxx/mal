@@ -1,6 +1,7 @@
 from env import Env
-from mal_types import MalException
+from mal_types import MalException, Closure, Integer
 from pytest import raises
+from step4_if_fn_do import EVAL
 
 def test_env_simple():
     env = Env()
@@ -58,3 +59,11 @@ def test_env_nested_with_outer_empty():
 
     with raises(MalException, match=r"d symbol not found"):
         inner.get("d")
+
+def test_env_from_closure():
+    outer = Env(None,("a","b"), (1,2))
+    closure = Closure(outer, ["a"], ["a"])
+    envc = Env(closure.outer, closure.bind,[3])
+    assert (3 == envc.get("a"))
+    assert (3 == EVAL(*closure.ast,envc))
+    
