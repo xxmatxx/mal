@@ -65,5 +65,5 @@ def test_env_from_closure():
     closure = Closure(outer, ["a"], ["a"])
     envc = Env(closure.outer, closure.bind,[3])
     assert (3 == envc.get("a"))
-    assert (3 == EVAL(*closure.ast,envc))
+    assert (3 == EVAL(closure.ast,envc))
     
