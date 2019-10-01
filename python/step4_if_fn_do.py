@@ -34,12 +34,7 @@ def EVAL(ast, env):
                 new_env.set(str(ast[1][i]), EVAL(ast[1][i+1], new_env))
             return EVAL(ast[2], new_env)
         elif str(ast[0]) == "fn*":
-            
-            print(env)
-            print(ast[1])
-            print(ast[2:])
-            
-            return Closure(env, ast[1], ast[2:])
+            return Closure(env, ast[1], ast[2])
         else:
             eval_list = eval_ast(ast, env)
             if isinstance(eval_list[0], Closure):

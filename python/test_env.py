@@ -1,7 +1,7 @@
 from env import Env
 from mal_types import MalException, Closure, Integer
 from pytest import raises
-from step4_if_fn_do import EVAL
+from step4_if_fn_do import EVAL, READ
 
 def test_env_simple():
     env = Env()
@@ -62,8 +62,8 @@ def test_env_nested_with_outer_empty():
 
 def test_env_from_closure():
     outer = Env(None,("a","b"), (1,2))
-    closure = Closure(outer, ["a"], ["a"])
+    closure = Closure(outer, ["a"], "a")
     envc = Env(closure.outer, closure.bind,[3])
     assert (3 == envc.get("a"))
-    assert (3 == EVAL(closure.ast,envc))
+    assert (3 == EVAL(READ(closure.ast),envc))
     

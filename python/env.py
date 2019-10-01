@@ -10,12 +10,12 @@ class Env:
                 self.set(binds[i],exprs[i])
 
     def set(self, key, value):
-        self.data[key] = value
+        self.data[str(key)] = value
 
     def find(self, key):
         if key in self.data:
             return self
-        elif self.outer:
+        elif self.outer: 
             return self.outer.find(key)
         else:
             return None
