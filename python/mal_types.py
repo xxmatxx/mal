@@ -84,8 +84,33 @@ class Symbol():
 
 
 class String(str):
-    pass
+    
+    def __init__(self, value):
+        if isinstance(value, str):
+            self.value = value
+        else:
+            raise MalException("Wrong value " + value)
+    
+    def __str__(self):
+        return str(self.value)
+    
+    def __repr__(self):
+        return str(self.value)
 
+class Key(str):
+    
+    def __init__(self, value):
+        if isinstance(value, str):
+            if str[0] == ":":
+                self.value = value
+            else:
+                raise MalException("Wrong value " + value)
+    
+    def __str__(self):
+        return str(self.value)
+    
+    def __repr__(self):
+        return str(self.value)
 
 class Closure:
     def __init__(self,env, bind, ast):
@@ -99,3 +124,12 @@ class Closure:
         return "Closure"
 
 #list je list()
+
+class List(list):
+    pass
+
+class Vector(list):
+    pass
+
+class Map(dict):
+    pass

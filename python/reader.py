@@ -1,5 +1,5 @@
 import re
-from mal_types import MalException, Integer, Nill, Bolean, Symbol
+from mal_types import MalException, Integer, Nill, Bolean, Symbol, String
 
 
 class Reader:
@@ -37,16 +37,17 @@ def read_form(tokens: Reader):
         return read_list(tokens)
     else:
         return read_atom(tokens)
-
+ 
 
 def read_list(tokens: Reader):
+    map = {"(":")","{":"}","[":"]"}
     out = list()
     tokens.next()
     while(tokens.peek() != ")" and tokens.peek() is not None):
         out.append(read_form(tokens))
         tokens.next()
     if tokens.peek() is None:
-        raise MalException("missing )")
+        raise MalException("missing closing )")
     return out
 
 
@@ -54,6 +55,11 @@ def read_atom(tokens: Reader):
     token = tokens.peek()
     int_re = re.compile(r"-?[0-9]+$")
     float_re = re.compile(r"-?[0-9][0-9.]*$")
+    if token[0] == "\"": 
+        if token[-1] == "\"": 
+            return String(token[1:-1])
+        else:
+            raise MalException("missing closing \"")
     if re.match(int_re, token):     return Integer(int(token))
     if re.match(float_re, token):   return float(token)
     if token == "true":             return Bolean(True)

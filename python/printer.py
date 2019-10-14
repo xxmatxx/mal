@@ -1,8 +1,8 @@
-from mal_types import Integer, Bolean, Nill, Symbol,Closure
+from mal_types import Integer, Bolean, Nill, Symbol,Closure, String
 
 
 def pr_str(ast):
-    if isinstance(ast, (Integer, Bolean, Nill, Symbol,Closure)):
+    if isinstance(ast, (Integer, Bolean, Nill, Symbol,Closure, String)):
         return str(ast)
     elif isinstance(ast, float):
         return str(ast)
