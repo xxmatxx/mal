@@ -22,7 +22,7 @@ class Env:
 
     def get(self, key):
         env = self.find(key)
-        if not env:
-            raise MalException(str(key) + " symbol not found")
-        else:
+        if env:
             return env.data[key]
+        else:
+            return None
