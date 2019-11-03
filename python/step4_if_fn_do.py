@@ -48,7 +48,7 @@ def EVAL(ast, env):
 
 def eval_ast(ast, env):
     if isinstance(ast, Symbol):
-        out = env.get(str(ast))
+        out = env.get(ast)
         if out is None:
             raise MalException("symbol not found")
         else:

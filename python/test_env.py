@@ -1,5 +1,5 @@
 from env import Env
-from mal_types import MalException, Closure, Integer
+from mal_types import MalException, Closure, Integer,Symbol
 from pytest import raises
 from step4_if_fn_do import EVAL, READ
 
@@ -16,9 +16,13 @@ def test_env_simple():
     assert (2 == env.get("b"))
     assert (3 == env.get("c"))
 
-    with raises(MalException, match=r"d symbol not found"):
-        env.get("d")
+    assert (None == env.get("d"))
 
+def test_env_simple_w_symbols():
+    env = Env()
+    env.set(Symbol("a"),3)
+
+    assert (3 == env.get(Symbol("a")))
 
 def test_env_init():
     env = Env(None,("a","b"), (1,2))
@@ -29,8 +33,8 @@ def test_env_init():
     assert (2 == env.get("b"))
     assert (3 == env.get("c"))
 
-    with raises(MalException, match=r"d symbol not found"):
-        env.get("d")
+    
+    assert (None == env.get("d"))
 
 def test_env_nested():
     outer = Env(None,("a","b"), (1,2))
@@ -44,8 +48,8 @@ def test_env_nested():
     assert (outer == inner.find("b"))
     assert (inner == inner.find("c"))
 
-    with raises(MalException, match=r"d symbol not found"):
-        inner.get("d")
+    
+    assert (None == inner.find("d"))
 
 def test_env_nested_with_outer_empty():
     outer = Env()
@@ -57,8 +61,7 @@ def test_env_nested_with_outer_empty():
     assert (inner == inner.find("a"))
     assert (inner == inner.find("c"))
 
-    with raises(MalException, match=r"d symbol not found"):
-        inner.get("d")
+    assert (None == inner.find("d"))
 
 def test_env_from_closure():
     outer = Env(None,("a","b"), (1,2))

@@ -24,6 +24,9 @@ class Bolean:
         else:
             raise MalException("Wrong value " + str(value))
 
+    def __eq__(self, other):
+        return self.value == other
+
     def __str__(self):
         if self.value is True:      return "true"
         if self.value is False:     return "false"
@@ -34,6 +37,9 @@ class Bolean:
 
     def __bool__(self):
         return self.value
+    
+    def __hash__(self):
+        return hash(self.value)
 
 
 class Integer:
@@ -52,6 +58,12 @@ class Integer:
 
     def __bool__(self):
         return False
+
+    def __eq__(self, other):
+        return self.value == other
+
+    def __hash__(self):
+        return hash(self.value)
 
     def __add__(self, other):
         return Integer(self.value + other.value)
@@ -81,7 +93,11 @@ class Symbol():
     def __repr__(self):
         return self.value
 
+    def __hash__(self):
+        return hash(self.value)
 
+    def __eq__(self, other):
+        return self.value == other
 
 class String(str):
     
@@ -94,15 +110,21 @@ class String(str):
     def __str__(self):
         return str(self.value)
     
+    def __eq__(self, other):
+        return self.value == other
+
     def __repr__(self):
         return str(self.value)
+
+    def __hash__(self):
+        return hash(self.value)
 
 class Key(str):
     
     def __init__(self, value):
         if isinstance(value, str):
-            if str[0] == ":":
-                self.value = value
+            if value[0] == ":":
+                self.value = value[1:]
             else:
                 raise MalException("Wrong value " + value)
     
@@ -111,6 +133,12 @@ class Key(str):
     
     def __repr__(self):
         return str(self.value)
+
+    def __eq__(self, other):
+        return self.value == other.value
+
+    def __eq__(self, other):
+        return self.value == other
 
 class Closure:
     def __init__(self,env, bind, ast):
@@ -124,7 +152,7 @@ class Closure:
         return "Closure"
 
 #list je list()
-
+"""
 class List(list):
     pass
 
@@ -133,3 +161,4 @@ class Vector(list):
 
 class Map(dict):
     pass
+"""
