@@ -200,6 +200,13 @@ bit bad about it.
 
 ## The Make-A-Lisp Process
 
+Feel free to follow the guide as literally or as loosely as you
+like. You are here to learn; wandering off the beaten path may be the
+way you learn best. However, each step builds on the previous steps,
+so if you are new to Lisp or new to your implementation language then
+you may want to stick more closely to the guide your first time
+through to avoid frustration at later steps.
+
 In the steps that follow the name of the target language is "quux" and
 the file extension for that language is "qx".
 
@@ -909,15 +916,16 @@ diff -urp ../process/step4_if_fn_do.txt ../process/step5_tco.txt
 
 * The default "apply"/invoke case of `EVAL` must now be changed to
   account for the new object/structure returned by the `fn*` form.
-  Continue to call `eval_ast` on `ast`. The first element is `f`.
+  Continue to call `eval_ast` on `ast`. The first element of the 
+  result of `eval_ast` is `f` and the remaining elements are in `args`.
   Switch on the type of `f`:
   * regular function (not one defined by `fn*`): apply/invoke it as
     before (in step 4).
   * a `fn*` value: set `ast` to the `ast` attribute of `f`. Generate
     a new environment using the `env` and `params` attributes of `f`
-    as the `outer` and `binds` arguments and rest `ast` arguments
-    (list elements 2 through the end) as the `exprs` argument. Set
-    `env` to the new environment. Continue at the beginning of the loop.
+    as the `outer` and `binds` arguments and `args` as the `exprs` 
+    argument. Set `env` to the new environment. Continue at the 
+    beginning of the loop.
 
 Run some manual tests from previous steps to make sure you have not
 broken anything by adding TCO.
@@ -990,7 +998,7 @@ diff -urp ../process/step5_tco.txt ../process/step6_file.txt
 
 * Define a `load-file` function using mal itself. In your main
   program call the `rep` function with this string:
-  "(def! load-file (fn* (f) (eval (read-string (str \"(do \" (slurp f) \")\")))))".
+  "(def! load-file (fn* (f) (eval (read-string (str \"(do \" (slurp f) \"\nnil)\")))))".
 
 Try out `load-file`:
   * `(load-file "../tests/incA.mal")` -> `9`
@@ -999,7 +1007,9 @@ Try out `load-file`:
 The `load-file` function does the following:
   * Call `slurp` to read in a file by name. Surround the contents with
     "(do ...)" so that the whole file will be treated as a single
-    program AST (abstract syntax tree).
+    program AST (abstract syntax tree). Add a new line in case the files
+    ends with a comment. The `nil` ensures a short and predictable result,
+    instead of what happens to be the last function defined in the loaded file.
   * Call `read-string` on the string returned from `slurp`. This uses
     the reader to read/convert the file contents into mal data/AST.
   * Call `eval` (the one in the REPL environment) on the AST returned
@@ -1331,15 +1341,15 @@ implementation. Let us continue!
   * `rest`: this function takes a list (or vector) as its argument and
     returns a new list containing all the elements except the first.
 
-* In the main program, use the `rep` function to define two new
-  control structures macros. Here are the string arguments for `rep`
-  to define these macros:
-  * `cond`: "(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list 'if (first xs) (if (> (count xs) 1) (nth xs 1) (throw \"odd number of forms to cond\")) (cons 'cond (rest (rest xs)))))))"
+* In the main program, call the `rep` function with the following
+  string argument  to define a new control structure.
+```
+"(defmacro! cond (fn* (& xs) (if (> (count xs) 0) (list 'if (first xs) (if (> (count xs) 1) (nth xs 1) (throw \"odd number of forms to cond\")) (cons 'cond (rest (rest xs)))))))"
+```
     * Note that `cond` calls the `throw` function when `cond` is
       called with an odd number of args. The `throw` function is
       implemented in the next step, but it will still serve it's
       purpose here by causing an undefined symbol error.
-  * `or`: "(defmacro! or (fn* (& xs) (if (empty? xs) nil (if (= 1 (count xs)) (first xs) `(let* (or_FIXME ~(first xs)) (if or_FIXME or_FIXME (or ~@(rest xs))))))))"
 
 
 <a name="step9"></a>
@@ -1521,27 +1531,6 @@ diff -urp ../process/step9_try.txt ../process/stepA_mal.txt
   entered by the user is returned as a string. If the user sends an
   end-of-file (usually Ctrl-D), then nil is returned.
 
-* Add meta-data support to mal functions by adding a new metadata
-  attribute on mal functions that refers to another mal value/type
-  (nil by default). Add the following metadata related core functions:
-  * `meta`: this takes a single mal function argument and returns the
-    value of the metadata attribute.
-  * `with-meta`: this function takes two arguments. The first argument
-    is a mal function and the second argument is another mal
-    value/type to set as metadata. A copy of the mal function is
-    returned that has its `meta` attribute set to the second argument.
-    Note that it is important that the environment and macro attribute
-    of mal function are retained when it is copied.
-  * Add a reader-macro that expands the token "^" to
-    return a new list that contains the symbol "with-meta" and the
-    result of reading the next next form (2nd argument) (`read_form`) and the
-    next form (1st argument) in that order
-    (metadata comes first with the ^ macro and the function second).
-  * If you implemented as `defmacro!` to mutate an existing function
-    without copying it, you can now use the function copying mechanism
-    used for metadata to make functions immutable even in the
-    defmacro! case...
-
 * Add a new "\*host-language\*" (symbol) entry to your REPL
   environment. The value of this entry should be a mal string
   containing the name of the current implementation.
@@ -1552,6 +1541,7 @@ diff -urp ../process/step9_try.txt ../process/stepA_mal.txt
   "(println (str \"Mal [\" \*host-language\* \"]\"))".
 
 * Ensure that the REPL environment contains definitions for `time-ms`,
+  `meta`, `with-meta`, `fn?`
   `string?`, `number?`, `seq`, and `conj`.  It doesn't really matter
   what they do at this stage: they just need to be defined.  Making
   them functions that raise a "not implemented" exception would be
@@ -1608,37 +1598,31 @@ implementation to run a mal implementation which itself runs the mal
 implementation.
 
 
-#### Optional: gensym
-
-The `or` macro we introduced at step 8 has a bug. It defines a
-variable called `or_FIXME`, which "shadows" such a binding from the
-user's code (which uses the macro). If a user has a variable called
-`or_FIXME`, it cannot be used as an `or` macro argument. In order to
-fix that, we'll introduce `gensym`: a function which returns a symbol
-which was never used before anywhere in the program. This is also an
-example for the use of mal atoms to keep state (the state here being
-the number of symbols produced by `gensym` so far).
-
-Previously you used `rep` to define the `or` macro. Remove that
-definition and use `rep` to define the new counter, `gensym` function
-and the clean `or` macro. Here are the string arguments you need to
-pass to `rep`:
-```
-"(def! inc (fn* [x] (+ x 1)))"
-
-"(def! gensym (let* [counter (atom 0)] (fn* [] (symbol (str \"G__\" (swap! counter inc))))))"
-
-"(defmacro! or (fn* (& xs) (if (empty? xs) nil (if (= 1 (count xs)) (first xs) (let* (condvar (gensym)) `(let* (~condvar ~(first xs)) (if ~condvar ~condvar (or ~@(rest xs)))))))))"
-```
-
-For extra information read [Peter Seibel's thorough discussion about
-`gensym` and leaking macros in Common Lisp](http://www.gigamonkeys.com/book/macros-defining-your-own.html#plugging-the-leaks).
-
-
 #### Optional additions
 
-* Add metadata support to other composite data types (lists, vectors
-  and hash-maps), and to native functions.
+* Add meta-data support to composite data types (lists, vectors
+  and hash-maps), and to functions (native or not), by adding a new
+  metadata attribute that refers to another mal value/type
+  (nil by default). Add the following metadata related core functions
+  (and remove any stub versions):
+  * `meta`: this takes a single mal function argument and returns the
+    value of the metadata attribute.
+  * `with-meta`: this function takes two arguments. The first argument
+    is a mal function and the second argument is another mal
+    value/type to set as metadata. A copy of the mal function is
+    returned that has its `meta` attribute set to the second argument.
+    Note that it is important that the environment and macro attribute
+    of mal function are retained when it is copied.
+  * Add a reader-macro that expands the token "^" to
+    return a new list that contains the symbol "with-meta" and the
+    result of reading the next next form (2nd argument) (`read_form`) and the
+    next form (1st argument) in that order
+    (metadata comes first with the ^ macro and the function second).
+  * If you implemented as `defmacro!` to mutate an existing function
+    without copying it, you can now use the function copying mechanism
+    used for metadata to make functions immutable even in the
+    defmacro! case...
+
 * Add the following new core functions (and remove any stub versions):
   * `time-ms`: takes no arguments and returns the number of
     milliseconds since epoch (00:00:00 UTC January 1, 1970), or, if
