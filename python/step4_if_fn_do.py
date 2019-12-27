@@ -50,7 +50,7 @@ def eval_ast(ast, env):
     if isinstance(ast, Symbol):
         out = env.get(ast)
         if out is None:
-            raise MalException("symbol not found")
+            raise MalException("symbol \""+ str(ast) + "\" not found")
         else:
             return out
     if isinstance(ast, list):
