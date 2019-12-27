@@ -19,4 +19,4 @@ def pr_str(ast):
         out += ")"
         return out
     else:
-        raise "error printer.py"
+        raise BaseException("error printer.py")
