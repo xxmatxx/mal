@@ -7,7 +7,7 @@
     - [ ] read_form
     - [ ] read_list
     - [ ] read_atom
-    - [ ] Handle when tokeniyer retun no value
+    - [ ] Handle when tokenizer retun no value
     - [ ] Tokenizer supports comments 
   - [ ] printer.py
     - [ ] pr_str
