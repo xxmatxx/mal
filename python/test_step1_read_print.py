@@ -29,5 +29,13 @@ def testing_read_of_lists():
     assert("(** 1 2)" == REP("(** 1 2)"))
     assert("(* -3 6)" == REP("(* -3 6)"))
 
+def testing_read_of_boleans():
+    assert("true" == REP("true"))
+    assert("false" == REP("false"))
+    assert("(true)" == REP("(true)"))
+    assert("(false)" == REP("(false)"))
+
+
+
 def test_commas_as_whitespace():
     assert("(1 2 3)" == REP("(1 2, 3,,,,),,"))

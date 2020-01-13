@@ -1,8 +1,6 @@
 from step2_eval import REP
 from mal_types import MalException
 import pytest
-
-
 def testing_evaluation_of_arithmetic_operations():
     assert ("3" == REP("(+ 1 2)"))
     assert("11" == REP("(+ 5 (* 2 3))"))

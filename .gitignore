@@ -1,9 +1,14 @@
+#python Nuitka
+*.build
+*.exe
+*.dll
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# C extensions
+# C/Cpp extensions
 *.so
 
 # Distribution / packaging

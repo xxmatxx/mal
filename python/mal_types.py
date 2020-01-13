@@ -137,8 +137,6 @@ class Key(str):
     def __eq__(self, other):
         return self.value == other.value
 
-    def __eq__(self, other):
-        return self.value == other
 
 class Closure:
     def __init__(self,env, bind, ast):
