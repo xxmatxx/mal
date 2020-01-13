@@ -41,19 +41,58 @@
       - [ ] set
       - [ ] find
       - [ ] get
-    - [ ] update REPL to use Enviroment
+  - [ ] step3_env.py
     - [ ] update step3_env.qx to use the new Env type to create the repl_env (with a nil outer value)
     - [ ] use the set method to add the numeric functions.
     - [ ] modify eval_ast to use Env get method to obtain value of symbol
-  - [ ] step3 ... .py
-    - [ ] EVAL function
-      - [ ] def!
-      - [ ] let*
-      - [ ] apply
-    
-    
+   - [ ] EVAL function
+    - [ ] def!
+    - [ ] let*
+    - [ ] apply
+     
 - [ ] Step 4: If Fn Do
+  - [ ] env.py
+    - [ ] Env object initialization
+      - [ ] binds
+      - [ ] exprs
+      - [ ] Clojure-style variadic function parameters
+  - [ ] printer.py
+    - [ ] pr_str add support for closure
+  - [ ] EVAL function
+    - [ ] do
+    - [ ] if
+    - [ ] fn*
+  - [ ] define a not function using mal itself.
+  - [ ] core.py
+    - [ ] pr
+    - [ ] list
+    - [ ] list?
+    - [ ] empty?
+    - [ ] count
+    - [ ] =
+    - [ ] <, <=, >, and >=
+    - [ ] pr-str
+    - [ ] str
+    - [ ] prn
+    - [ ] println
+      
 - [ ] Step 5: Tail call optimization
+  - [ ] core.py
+    - [ ] read-string
+    - [ ] slurp
+  - [ ] Aad a new symbol "eval" to your REPL environment.
+  - [ ] Define a load-file function using mal itself.
+  - [ ] core.py
+    - [ ] atom
+    - [ ] atom?
+    - [ ] deref
+    - [ ] reset!
+    - [ ] swamp!
+  - [ ] reader.py 
+    - [ ]  reader macro 
+      - [ ] @
+  - [ ] Add the ability to run another mal program from the command line.
+  - [ ] add suport for command line arguments in mal program 
 - [ ] Step 6: Files, Mutation, and Evil
 - [ ] Step 7: Quoting
 - [ ] Step 8: Macros
