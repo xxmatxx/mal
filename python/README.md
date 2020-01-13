@@ -36,6 +36,22 @@
     - [ ] ast is a list
   
 - [ ] Step 3: Environments
+  - [ ] env.py
+    - [ ] Env object
+      - [ ] set
+      - [ ] find
+      - [ ] get
+    - [ ] update REPL to use Enviroment
+    - [ ] update step3_env.qx to use the new Env type to create the repl_env (with a nil outer value)
+    - [ ] use the set method to add the numeric functions.
+    - [ ] modify eval_ast to use Env get method to obtain value of symbol
+  - [ ] step3 ... .py
+    - [ ] EVAL function
+      - [ ] def!
+      - [ ] let*
+      - [ ] apply
+    
+    
 - [ ] Step 4: If Fn Do
 - [ ] Step 5: Tail call optimization
 - [ ] Step 6: Files, Mutation, and Evil
@@ -45,4 +61,3 @@
 - [ ] Step A: Metadata, Self-hosting and Interop
 
 
-- [ ]
